@@ -67,4 +67,4 @@ if __name__ == "__main__":
     df = pd.DataFrame(aggregate_result, columns=[
                       "Cities", 'Amount spent (INR)', 'Results'])
 
-    df.to_excel('aggreate.xlsx')
+    df.to_excel(out_file)
