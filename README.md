@@ -11,7 +11,7 @@
 For generatingrandom uuid
 --
 
-    python generate_randomid.py [OPTIONS]
+    python generate_randomid.py [OPTIONAL_ARGUMENTS]
 
     --num_uuid   Number of uuids to be generated. Default is 20 Million.
     --len_uuid   Length of uuid string. Default is 8.
