@@ -24,6 +24,6 @@ For generating report
 
     python gen_report.py --csv [FILE_NAME (REQUIRED)] --xlsx [FILE_NAME (REQUIRED)] --out [FILE_NAME (OPTIONAL)]
 
-            --csv   Name of the csv file stored in data directory in which Citites field will be searched.
-            --xlsx  Name of the csv file stored in data directory in which    Citites field will be added. Must be in Microsoft xlsx format otherwise it will not work.
-            --out   Output file name which will be stored is output directory. It is optional and default is 'aggregate.xlsx'
+    --csv   Name of the csv file stored in data directory in which Citites field will be searched.
+    --xlsx  Name of the csv file stored in data directory in which    Citites field will be added. Must be in Microsoft xlsx format otherwise it will not work.
+    --out   Output file name which will be stored is output directory. It is optional and default is 'aggregate.xlsx'
