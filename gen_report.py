@@ -16,8 +16,7 @@ if __name__ == "__main__":
     parse_args = argument_parser.parse_args()
     csv_file = join(data_dir, parse_args.csv)
     xlsx_file = join(data_dir, parse_args.xlsx)
-    out_file = join(output_dir, parse_args.out)
-
+    
     csv_df = pd.read_csv(csv_file)
     xlsx_df = pd.read_excel(xlsx_file)
 
@@ -50,21 +49,33 @@ if __name__ == "__main__":
     unique_regions = set(regions)
     unique_regions.remove(np.nan)
 
-    city_aggregate_results = []
-    for city in unique_cities:
-        queries = xlsx_df[xlsx_df.Cities == city]
-        city_aggregate_results.append(
-            (city, queries['Amount spent (INR)'].sum(), queries.Results.sum()))
+    android_install = []
+    ios_install = []
 
-    region_aggregate_results = []
-    for region in unique_regions:
-        queries = xlsx_df[xlsx_df.Regions == region]
-        region_aggregate_results.append(
-            (region, queries['Amount spent (INR)'].sum(), queries.Results.sum()))
+    android_xlsx = xlsx_df[xlsx_df['Campaign name'].map(lambda x: 'Android' in x)]
+    ios_xlsx = xlsx_df[xlsx_df['Campaign name'].map(lambda x: 'IOS' in x)]
 
-    aggregate_result = city_aggregate_results + region_aggregate_results
+    for xlsx, platform in zip([android_xlsx, ios_xlsx], ['android', 'ios']):
+        city_aggregate_results = []
+        for city in unique_cities:
+            queries = xlsx[xlsx.Cities == city]
+            city_aggregate_results.append(
+                (city, queries['Amount spent (INR)'].sum(), queries.Results.sum()))
+        
+        try:
+            region_aggregate_results = []
+            for region in unique_regions:
+                queries = xlsx_df[xlsx.Regions == region]
+                region_aggregate_results.append(
+                    (region, queries['Amount spent (INR)'].sum(), queries.Results.sum()))
+        except pd.core.indexing.IndexingError:
+            pass
 
-    df = pd.DataFrame(aggregate_result, columns=[
-                      "Cities", 'Amount spent (INR)', 'Results'])
+        aggregate_result = city_aggregate_results + region_aggregate_results
 
-    df.to_excel(out_file)
+
+        df = pd.DataFrame(aggregate_result, columns=[
+                        "Cities", 'Amount spent (INR)', 'Results'])
+
+        out_file = join(output_dir, f'{platform}_{parse_args.out}')
+        df.to_excel(out_file)
