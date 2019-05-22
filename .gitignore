@@ -4,3 +4,7 @@ data
 output
 __pycache__
 *.ipynb
+input
+*.xlsx
+*.xls
+*.csv
